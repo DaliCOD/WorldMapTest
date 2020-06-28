@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+
+}
+Body {
+  background-color: #485461;
+  background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
+
+}
+
+h2 {
+  background: none repeat scroll 0 0 #cccccc;
+  border: 1px solid black;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 5px;
+  font-size: 30px;
+  font-weight: normal;
+  cursor: pointer;
+  color: black;
+  background-color: white;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  width: 150px;
+
+}
+
+h2.tab-selected {
+  background: #b6ff40;
+  border: 1px solid #000000;
+}
+
+.map {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  top: 0;
+  margin: 20px;
+
+  border: 10px solid white;
+
+}
+#nadpisy {
+  position: absolute;
+  justify-content: space-around;
+  width: 1000px;
+  margin-left: 20px;
+  left: 1020px;
+  top: 20px;
+}
