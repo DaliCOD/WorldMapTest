@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>JQVMap - World Map</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+    <link href="dist/jqvmap.css" media="screen" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="Application/style.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="dist/jquery.vmap.js"></script>
+
+    <script type="text/javascript" src="dist/maps/continents/jquery.vmap.asia.js"></script>
+    <script type="text/javascript" src="dist/maps/continents/jquery.vmap.europe.js"></script>
+    <script type="text/javascript" src="dist/maps/continents/jquery.vmap.australia.js"></script>
+    <script type="text/javascript" src="dist/maps/continents/jquery.vmap.africa.js"></script>
+    <script type="text/javascript" src="dist/maps/continents/jquery.vmap.north-america.js"></script>
+    <script type="text/javascript" src="dist/maps/continents/jquery.vmap.south-america.js"></script>
+
+    <script type="text/javascript" src="Application/js/jquery.vmap.sampledata.js"></script>
+
+          <script src="Application/main.js" charset="utf-8"></script>
+          <script src="Application/countries.js"></script>
+  </head>
+  <body>
+  <button type="button" id="continuebutton"name="button">Next</button>
+  <div id="CountryToBePicked">Find: <span id="RandomCountry"></span> </div>
+
+    <div class="map index2" >
+      <div id="vmap-asia" style="width: 1000px; height: 800px;"></div>
+    </div>
+
+
+    <div class="map">
+      <div id="vmap-europe" style="width: 1000px; height: 800px;"></div>
+    </div>
+
+
+    <div class="map">
+      <div id="vmap-australia" style="width: 1000px; height: 800px;"></div>
+    </div>
+
+
+    <div class="map">
+      <div id="vmap-africa" style="width: 1000px; height: 800px;"></div>
+    </div>
+
+
+    <div class="map">
+      <div id="vmap-northamerica" style="width: 1000px; height: 800px;"></div>
+    </div>
+
+
+    <div class="map">
+      <div id="vmap-southamerica" style="width: 1000px; height: 800px;"></div>
+    </div>
+
+<div id="nadpisy">
+    <h2 class="nadpisy tab-selected" id="asia">Asia</h2>
+  <h2 class="nadpisy"id="europe">Europe</h2>
+<h2 class="nadpisy" id="australia">Australia</h2>
+    <h2 class="nadpisy"id="africa">Africa</h2>
+  <h2 class="nadpisy" id="northamerica">North America</h2>
+    <h2 class="nadpisy" id="southamerica">South America</h2>
+
+</div>
+
+<div id="instrukce">
+  <span class="WS">W</span> and <span class="WS">S</span> - toggle between maps
+</div>
+
+<div style="display: none"class="countrytoguess">
+  CountryToGuess:
+</div>
+<div style="display: none" id="currentcountry">Russia</div>
+  </body>
+</html>
