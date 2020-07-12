@@ -20,7 +20,6 @@ function readyTheMap() {
       backgroundColor: '#333333',
       color: '#ffffff',
       hoverOpacity: 0.7,
-      selectedColor: '#666666',
       enableZoom: true,
       showTooltip: true,
       values: sample_data,
@@ -32,7 +31,6 @@ function readyTheMap() {
       backgroundColor: '#333333',
       color: '#ffffff',
       hoverOpacity: 0.7,
-      selectedColor: '#666666',
       enableZoom: true,
       showTooltip: true,
       values: sample_data,
@@ -44,7 +42,6 @@ function readyTheMap() {
       backgroundColor: '#333333',
       color: '#ffffff',
       hoverOpacity: 0.7,
-      selectedColor: '#666666',
       enableZoom: true,
       showTooltip: true,
       values: sample_data,
@@ -56,7 +53,6 @@ function readyTheMap() {
       backgroundColor: '#333333',
       color: '#ffffff',
       hoverOpacity: 0.7,
-      selectedColor: '#666666',
       enableZoom: true,
       showTooltip: true,
       values: sample_data,
@@ -68,7 +64,6 @@ function readyTheMap() {
       backgroundColor: '#333333',
       color: '#ffffff',
       hoverOpacity: 0.7,
-      selectedColor: '#666666',
       enableZoom: true,
       showTooltip: true,
       values: sample_data,
@@ -80,7 +75,6 @@ function readyTheMap() {
       backgroundColor: '#333333',
       color: '#ffffff',
       hoverOpacity: 0.7,
-      selectedColor: '#666666',
       enableZoom: true,
       showTooltip: true,
       values: sample_data,
@@ -153,5 +147,5 @@ function drawCanvasButton () {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext('2d')
   ctx.fillStyle ="red"
-  
+
 }

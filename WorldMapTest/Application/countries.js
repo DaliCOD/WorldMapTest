@@ -28,80 +28,107 @@ var randomNumber
 var currentCountry //getting the country that will be Guessed.
 var currentId  //Id of the country being guesssed
 var MistakesCounter = 0; //If a wrong guess, you have 3 tries.
-var previousFill1 //returning their original colors to the countries
-var previousFill2
-var previousFill3
 var pickedCountryId1
 var pickedCountryId2
 var pickedCountryId3
 var regionsIds//Getting The IDS of All regions, used to filter Final Array
-var wonGameFirstTry = false
+var TriesCounter = 0
+var GameStarted = false;
+var ContinueButton
+
 
 setTimeout(function () {    //Need For this to happen after some more javascript code
 
-                for(i = 0; i < regions.length; i ++ ) { //Creates the Regions ARRAY
-                     arrayRegions.push(regions[i])
-                }
+  ContinueButton = document.getElementById("continuebutton")
+  ContinueButton.addEventListener("click", RandomCountry)
 
-                  class CountryObject {   //Constructor, Creates An Array(ProgressArray) of OBJECTS
-                      constructor(Shortcut, Name) {
-                        this.shortcut = Shortcut.toLowerCase()
-                        this.name = Name
+  function makeEverythingUnclickable() {
+    arrayRegions.forEach(region => { //Countries On Map Unclickable
+      region.classList.add("Unclickable")
+    })
+    nadpisyArray.forEach(nadpis => {
+      nadpis.classList.add("Unclickable")
+    })
+
+  }
+
+function DisablePage() {
+      makeEverythingUnclickable();  //Nothing is Clickable so the game is stopped.
+      document.removeEventListener("keydown", HandleKeyPress); //Arrows No longer work
+      ContinueButton.style.display = "inline-block"
+    }
+
+function CreateFinalArray() {
+
+  class CountryObject {   //Constructor, Creates An Array(ProgressArray) of OBJECTS
+                        constructor(Shortcut, Name) {
+                          this.shortcut = Shortcut.toLowerCase()
+                          this.name = Name
+                        }
                       }
-                    }
 
-                  ProgressArray = newarray.map(function(array) { //Progress Array is FinalArray But unfiltered.
-                      return new CountryObject(array[0].toLowerCase(), array[1])
-                    })
+  for(i = 0; i < regions.length; i ++ ) { //Creates the Regions ARRAY
+  arrayRegions.push(regions[i])
+    }
 
-                  regionsIds = arrayRegions.map(function(region) { //USED to Filter ProgressArray into FinalArray
-                      return region.id.toString().split("_")[1] }).sort();
+    ProgressArray = newarray.map(function(array) { //Progress Array is FinalArray But unfiltered.
+  return new CountryObject(array[0].toLowerCase(), array[1])
+    })
 
-    FinalArray = ProgressArray.filter(function(e) { //An Array of 170 Objects
-          for(let i = 0; i < regionsIds.length; i++) {
-            if(e.shortcut == regionsIds[i]) {
-              return e
-              }
-            }
-        })
+    regionsIds = arrayRegions.map(function(region) { //USED to Filter ProgressArray into FinalArray
+        return region.id.toString().split("_")[1] }).sort();
+
+        FinalArray = ProgressArray.filter(function(e) { //An Array of 170 Objects
+              for(let i = 0; i < regionsIds.length; i++) {
+                if(e.shortcut == regionsIds[i]) {
+                  return e
+                  }
+                }
+            })
+//Creates the Array Of 170 Objects
+}
+
+CreateFinalArray()
 
     arrayRegions.forEach(region => { //When A Country Is Clicked
           region.addEventListener("click", function(){
 
-          function DisablePage() { //Nothing is Clickable so the game is stopped.
-              document.removeEventListener("keydown", HandleKeyPress);
-              makeEverythingUnclickable();
-              var ContinueButton = document.getElementById("continuebutton")
-              ContinueButton.style.display = "inline-block"
-              ContinueButton.addEventListener("click", function(){
-                location.reload()
-              })
-              
-            }
 
-function makeEverythingUnclickable() {
-  arrayRegions.forEach(region => { //Countries On Map Unclickable
-    region.classList.add("Unclickable")
-  })
-  nadpisyArray.forEach(nadpis => {
-    nadpis.classList.add("Unclickable")
-  })
 
+TriesCounter++
+if (TriesCounter == 1) {
+  pickedCountryId1 = this
+}
+if (TriesCounter == 2) {
+  pickedCountryId2 =this
+}
+if(TriesCounter == 3) {
+  pickedCountryId3 = this
 }
 
+function ShowTheAnswer() { //If all 3 tries are wrong, shows the real answer
+  for( let i = 0; i < BuiltArray.length; i++) {
+    if(BuiltArray[i].name == currentCountry) {
+       for(let y = 0; y < arrayRegions.length; y++) {
+           if(BuiltArray[i].shortcut == arrayRegions[y].id.split("_")[1]) {
+             arrayRegions[y].style.fill = "#b6ff40";
+           }
+       }
+
+
+    }
+  }
+}
 
               if(this.id.split("_")[1] == currentId) { //If A correct guess
+                TriesCounter++
                 console.log("Correct")
-                previousFill1 = this.style.fill;
-                pickedCountryId1 = currentId
+                pickedCountryId1 = this
                 this.style.fill ="#b6ff40";
-                this.classList.add("Unclickable")
                 DisablePage()
-
-
-
               }
               else {  //If A wrong guess
+
                 this.style.fill ="red"
                 this.classList.add("Unclickable")
                 MistakesCounter++
@@ -113,6 +140,8 @@ function makeEverythingUnclickable() {
                       if (MistakesCounter >= 3) { //If 3 Wrong guesses
                         DisablePage()
                         console.log("Game Over!")
+                    ShowTheAnswer()
+
 
                     }
 
@@ -124,25 +153,58 @@ function makeEverythingUnclickable() {
 
 function ReturnOriginalColors() {
 
+pickedCountryId1.style.fill = pickedCountryId1.getOriginalFill()
+
+pickedCountryId2.style.fill = pickedCountryId2.getOriginalFill()
+
+pickedCountryId3.style.fill = pickedCountryId3.getOriginalFill()
+}
+
+function makeEverythingClickable() {
+  arrayRegions.forEach(region => { //Countries On Map Unclickable
+    region.classList.remove("Unclickable")
+  })
+  nadpisyArray.forEach(nadpis => {
+    nadpis.classList.remove("Unclickable")
+  })
+
 }
 
 function RandomCountry() {  //Gets A New Random Country, Begins The Game
+  //Všechno vynuluje a vrátí do normálu
+
+  makeEverythingClickable()
+  if (GameStarted) ReturnOriginalColors()
+  GameStarted = true;
   BuildArray()
+  function ReturnColorToShown() {
+    for( let i = 0; i < BuiltArray.length; i++) {
+      if(BuiltArray[i].name == currentCountry) {
+         for(let y = 0; y < arrayRegions.length; y++) {
+             if(BuiltArray[i].shortcut == arrayRegions[y].id.split("_")[1]) {
+               arrayRegions[y].style.fill = arrayRegions[y].getOriginalFill();
+             }
+         }
+
+
+      }
+    }
+  }
+  ReturnColorToShown()
+  pickedCountryId1 = 0
+  pickedCountryId2 = 0
+  pickedCountryId3 = 0
+  TriesCounter = 0
+  MistakesCounter = 0;
   randomNumber = Math.floor(Math.random() * 170);
   currentCountry = BuiltArray[randomNumber].name
   currentId = BuiltArray[randomNumber].shortcut
   document.getElementById("RandomCountry").textContent = currentCountry
   console.log("Where is this country: " + currentCountry)
-  previousFill1 //returning their original colors to the countries
-  previousFill2
-  previousFill3
-  pickedCountryId1
-  pickedCountryId2
-  pickedCountryId3
-
-
+  ContinueButton.style.display = "none"
   //Všechno vynuluje a vrátí do normálu
 }
+
 
 function BuildArray() {//wíll be used so a User can play for ex only with African countries
 BuiltArray = FinalArray
@@ -151,6 +213,8 @@ BuiltArray = FinalArray
 
  //Begins The Game
 RandomCountry()
+
+
 
 
 

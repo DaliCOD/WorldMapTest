@@ -121,7 +121,7 @@ user-select: none;
 
 }
 #CountryToBePicked {
-  background-color: #b6ff40;
+  background-color: white;
   font-size: 40px;
   padding: 5px;
   margin-top: 735px;
@@ -129,10 +129,13 @@ user-select: none;
   z-index: 2000;
   position: absolute;
   display: inline-block;
-  border-radius: 10%;
   outline: none;
+  font-weight: 400
 
 }
 .displaynone {
   display: none;
+}
+#findword {
+  font-size: 30px;
 }
