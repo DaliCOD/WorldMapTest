@@ -121,7 +121,7 @@ user-select: none;
 
 }
 #CountryToBePicked {
-  background-color: white;
+  background-color: #ffffff;
   font-size: 40px;
   padding: 5px;
   margin-top: 735px;
@@ -130,7 +130,8 @@ user-select: none;
   position: absolute;
   display: inline-block;
   outline: none;
-  font-weight: 400
+  font-weight: 400;
+  border-radius: 3%;
 
 }
 .displaynone {
@@ -138,4 +139,21 @@ user-select: none;
 }
 #findword {
   font-size: 30px;
+}
+#WrongCountry{
+  background-color: #ff3d3d;
+  display: none;
+  font-size: 25px;
+  padding: 5px;
+  top: 35px;
+  margin-left: 80px;
+  z-index: 2000;
+  position: absolute;
+  outline: none;
+  font-weight: 400;
+  border-radius: 3%
+
+}
+#EnterInstr {
+  display: none
 }

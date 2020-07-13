@@ -34,11 +34,16 @@ var pickedCountryId3
 var regionsIds//Getting The IDS of All regions, used to filter Final Array
 var TriesCounter = 0
 var GameStarted = false;
-var ContinueButton
-
+var ContinueButton;
+var WrongCountry
+var WrongCountryDiv
+var EnterInstr
 
 setTimeout(function () {    //Need For this to happen after some more javascript code
 
+  EnterInstr = document.getElementById("EnterInstr")
+  WrongCountry = document.getElementById("WrongCountryJS")
+  WrongCountryDiv = document.getElementById("WrongCountry")
   ContinueButton = document.getElementById("continuebutton")
   ContinueButton.addEventListener("click", RandomCountry)
 
@@ -52,10 +57,20 @@ setTimeout(function () {    //Need For this to happen after some more javascript
 
   }
 
+  function EnterUsedToNext(key) {//Enter is like the NEXT Button
+    if (key.keyCode == 13) {
+     console.log("EnterPressed")
+      RandomCountry()
+      document.removeEventListener("keydown", EnterUsedToNext)
+    }
+  }
+
 function DisablePage() {
       makeEverythingUnclickable();  //Nothing is Clickable so the game is stopped.
       document.removeEventListener("keydown", HandleKeyPress); //Arrows No longer work
       ContinueButton.style.display = "inline-block"
+      EnterInstr.style.display = "inline-block"
+      document.addEventListener("keydown", EnterUsedToNext)
     }
 
 function CreateFinalArray() {
@@ -93,18 +108,25 @@ CreateFinalArray()
     arrayRegions.forEach(region => { //When A Country Is Clicked
           region.addEventListener("click", function(){
 
+function TriesTracker() {
+  TriesCounter++
 
-
-TriesCounter++
 if (TriesCounter == 1) {
-  pickedCountryId1 = this
+  pickedCountryId1 = region
+
 }
-if (TriesCounter == 2) {
-  pickedCountryId2 =this
+else if (TriesCounter == 2) {
+  pickedCountryId2 = region
+
 }
-if(TriesCounter == 3) {
-  pickedCountryId3 = this
+else if(TriesCounter == 3) {
+  pickedCountryId3 = region
+
 }
+}
+
+TriesTracker()
+
 
 function ShowTheAnswer() { //If all 3 tries are wrong, shows the real answer
   for( let i = 0; i < BuiltArray.length; i++) {
@@ -112,35 +134,53 @@ function ShowTheAnswer() { //If all 3 tries are wrong, shows the real answer
        for(let y = 0; y < arrayRegions.length; y++) {
            if(BuiltArray[i].shortcut == arrayRegions[y].id.split("_")[1]) {
              arrayRegions[y].style.fill = "#b6ff40";
+             removeZFromAllMaps()
+             removeSelectedFromAllNadpisy()
+             var IdFirstPart = arrayRegions[y].id.split("_")[0]
+             var MapaCount = IdFirstPart[IdFirstPart.length - 1]
+             console.log(MapaCount)
+
+              mapsArray[MapaCount - 1].classList.add("index2")
+              nadpisyArray[MapaCount - 1].classList.add("tab-selected")
+              positionCounter = MapaCount - 1
+
            }
        }
 
 
     }
   }
+
 }
 
-              if(this.id.split("_")[1] == currentId) { //If A correct guess
-                TriesCounter++
-                console.log("Correct")
-                pickedCountryId1 = this
-                this.style.fill ="#b6ff40";
-                DisablePage()
+
+          if(this.id.split("_")[1] == currentId) { //If A correct guess
+
+                    this.style.fill ="#b6ff40";
+                    DisablePage()
+                    WrongCountryDiv.style.display = "inline-block"
+                    WrongCountryDiv.style.backgroundColor = "#b6ff40";
+                    WrongCountry.textContent = currentCountry;
+
+
               }
               else {  //If A wrong guess
 
                 this.style.fill ="red"
                 this.classList.add("Unclickable")
                 MistakesCounter++
-                    for(let i = 0; i < BuiltArray.length; i++) { //Gets The Name Of THe Country User Selected
-                        if(BuiltArray[i].shortcut == this.id.split("_")[1]) {
-                          console.log(BuiltArray[i].name)
+
+                for(let i = 0; i < BuiltArray.length; i++) { //Gets The Name Of THe Country User Selected
+                    if(BuiltArray[i].shortcut == this.id.split("_")[1]) {
+                      WrongCountry.textContent = BuiltArray[i].name;
+                      WrongCountryDiv.style.display = "inline-block"
+
                         }
                     }
                       if (MistakesCounter >= 3) { //If 3 Wrong guesses
                         DisablePage()
                         console.log("Game Over!")
-                    ShowTheAnswer()
+                        ShowTheAnswer()
 
 
                     }
@@ -152,12 +192,32 @@ function ShowTheAnswer() { //If all 3 tries are wrong, shows the real answer
           })
 
 function ReturnOriginalColors() {
+if (TriesCounter == 1) {
+  pickedCountryId1.style.fill = pickedCountryId1.getOriginalFill()
+}
+else if (TriesCounter == 2) {
+  pickedCountryId1.style.fill = pickedCountryId1.getOriginalFill()
+  pickedCountryId2.style.fill = pickedCountryId2.getOriginalFill()
+}
+else if (TriesCounter == 3) {
+  pickedCountryId1.style.fill = pickedCountryId1.getOriginalFill()
+  pickedCountryId2.style.fill = pickedCountryId2.getOriginalFill()
+  pickedCountryId3.style.fill = pickedCountryId3.getOriginalFill()
+  }
+}
 
-pickedCountryId1.style.fill = pickedCountryId1.getOriginalFill()
+function ReturnColorToShownCountry() {
+  for( let i = 0; i < BuiltArray.length; i++) {
+    if(BuiltArray[i].name == currentCountry) {
+       for(let y = 0; y < arrayRegions.length; y++) {
+           if(BuiltArray[i].shortcut == arrayRegions[y].id.split("_")[1]) {
+             arrayRegions[y].style.fill = arrayRegions[y].getOriginalFill();
+           }
+       }
 
-pickedCountryId2.style.fill = pickedCountryId2.getOriginalFill()
 
-pickedCountryId3.style.fill = pickedCountryId3.getOriginalFill()
+    }
+  }
 }
 
 function makeEverythingClickable() {
@@ -171,53 +231,63 @@ function makeEverythingClickable() {
 }
 
 function RandomCountry() {  //Gets A New Random Country, Begins The Game
-  //Všechno vynuluje a vrátí do normálu
 
-  makeEverythingClickable()
-  if (GameStarted) ReturnOriginalColors()
-  GameStarted = true;
-  BuildArray()
-  function ReturnColorToShown() {
-    for( let i = 0; i < BuiltArray.length; i++) {
-      if(BuiltArray[i].name == currentCountry) {
-         for(let y = 0; y < arrayRegions.length; y++) {
-             if(BuiltArray[i].shortcut == arrayRegions[y].id.split("_")[1]) {
-               arrayRegions[y].style.fill = arrayRegions[y].getOriginalFill();
-             }
-         }
+HandleMouseScroll()
+makeEverythingClickable()
+BuildArray()
+ReturnColorToShownCountry()
 
+if (GameStarted) ReturnOriginalColors()
+GameStarted = true;
 
-      }
-    }
-  }
-  ReturnColorToShown()
-  pickedCountryId1 = 0
-  pickedCountryId2 = 0
-  pickedCountryId3 = 0
-  TriesCounter = 0
-  MistakesCounter = 0;
-  randomNumber = Math.floor(Math.random() * 170);
-  currentCountry = BuiltArray[randomNumber].name
-  currentId = BuiltArray[randomNumber].shortcut
-  document.getElementById("RandomCountry").textContent = currentCountry
-  console.log("Where is this country: " + currentCountry)
+Annulate()
+NewRandomCountry()
+
+  document.addEventListener("keydown", HandleKeyPress);
+
+  EnterInstr.style.display = "none"
+  WrongCountryDiv.style.display = "none";
   ContinueButton.style.display = "none"
-  //Všechno vynuluje a vrátí do normálu
 }
-
 
 function BuildArray() {//wíll be used so a User can play for ex only with African countries
 BuiltArray = FinalArray
 }
 
-
  //Begins The Game
 RandomCountry()
 
+}, 0);
 
+function HandleMouseScroll() {
 
+  window.addEventListener('wheel', function(event) { //Will Zoom In The Map With Just Scrolling
+ if (event.deltaY < 0)
+ {
+  console.log('scrolling up');
 
+ }
+ else if (event.deltaY > 0)
+ {
+  console.log('scrolling down');
 
+ }
+})
 
+}
 
-    }, 20);
+function Annulate() {
+
+    pickedCountryId1 = 0
+    pickedCountryId2 = 0
+    pickedCountryId3 = 0
+    TriesCounter = 0
+    MistakesCounter = 0;
+}
+
+function NewRandomCountry() {
+  randomNumber = Math.floor(Math.random() * 170);
+  currentCountry = BuiltArray[randomNumber].name
+  currentId = BuiltArray[randomNumber].shortcut
+  document.getElementById("RandomCountry").textContent = currentCountry
+}
