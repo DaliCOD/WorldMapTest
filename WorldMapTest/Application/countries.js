@@ -6,7 +6,7 @@
     return country.split(" = ")
   }
 
-  var newarray = countries.map(myFunction) //Serves Only For Filtering The FinalArray
+  var newarray = countries.map(myFunction) //Serves Only For Creating The FinalArray
 
 
 let AsiaNum = 0;
@@ -15,8 +15,6 @@ let AustraliaNum = 2;
 let AfricaNum = 3;
 let NAmericaNum = 4;
 let SAmericaNum = 5;
-
-
 
 
 var ProgressArray //array of 182 objects {shortcut: ,name:}
@@ -38,17 +36,35 @@ var ContinueButton;
 var WrongCountry
 var WrongCountryDiv
 var EnterInstr
+var CheckboxesCheckedArray
+var CountriesInPlay
+var Nana = []
+var ProgressArray1
+var regionsIds1
+var HelpArray
+ var PickedRadio
+ var QuestionCounter = 0;
+ var CorrectCounter = 0
+
+for(i = 0; i < regions.length; i ++ ) { //Creates the Regions ARRAY
+
+  Nana.push(regions[i])}
 
 setTimeout(function () {    //Need For this to happen after some more javascript code
 
+function AssignDOM() {
   EnterInstr = document.getElementById("EnterInstr")
   WrongCountry = document.getElementById("WrongCountryJS")
   WrongCountryDiv = document.getElementById("WrongCountry")
   ContinueButton = document.getElementById("continuebutton")
   ContinueButton.addEventListener("click", RandomCountry)
 
-  function makeEverythingUnclickable() {
-    arrayRegions.forEach(region => { //Countries On Map Unclickable
+}
+
+AssignDOM()
+
+function makeEverythingUnclickable() {
+    Nana.forEach(region => { //Countries On Map Unclickable
       region.classList.add("Unclickable")
     })
     nadpisyArray.forEach(nadpis => {
@@ -57,7 +73,7 @@ setTimeout(function () {    //Need For this to happen after some more javascript
 
   }
 
-  function EnterUsedToNext(key) {//Enter is like the NEXT Button
+function EnterUsedToNext(key) {//Enter is like the NEXT Button
     if (key.keyCode == 13) {
      console.log("EnterPressed")
       RandomCountry()
@@ -73,7 +89,14 @@ function DisablePage() {
       document.addEventListener("keydown", EnterUsedToNext)
     }
 
+function BuildArray() {//wíll be used so a User can play for ex only with African countries
+    BuiltArray = FinalArray
+
+
+    }
+
 function CreateFinalArray() {
+
 
   class CountryObject {   //Constructor, Creates An Array(ProgressArray) of OBJECTS
                         constructor(Shortcut, Name) {
@@ -82,9 +105,47 @@ function CreateFinalArray() {
                         }
                       }
 
+
+          CheckboxesCheckedArray = Array.from(document.querySelectorAll(".checkboxes:checked"))
+          CountriesInPlay = [];
+for (let i = 0; i < CheckboxesCheckedArray.length; i++) {
+    if(CheckboxesCheckedArray[i] == document.getElementById("checkboxOne")) {
+        CountriesInPlay.push("1")
+}
+  if(CheckboxesCheckedArray[i] == document.getElementById("checkboxTwo")) {
+        CountriesInPlay.push("2")
+        }
+      if(CheckboxesCheckedArray[i] == document.getElementById("checkboxThree")) {
+      CountriesInPlay.push("3")
+      }
+            if(CheckboxesCheckedArray[i] == document.getElementById("checkboxFour")) {
+    CountriesInPlay.push("4")
+              }
+        if(CheckboxesCheckedArray[i] == document.getElementById("checkboxFive")) {
+        CountriesInPlay.push("5")
+        }
+    if(CheckboxesCheckedArray[i] == document.getElementById("checkboxSix")) {
+          CountriesInPlay.push("6")
+          }
+
+                      }
+
+
+
   for(i = 0; i < regions.length; i ++ ) { //Creates the Regions ARRAY
-  arrayRegions.push(regions[i])
-    }
+
+  Nana.push(regions[i])}
+
+  arrayRegions = Nana.filter(function(region) {
+ for(let i = 0; i < CountriesInPlay.length; i++) {
+   if (region.id.split("_")[0][region.id.split("_")[0].length - 1] == CountriesInPlay[i]) {
+     return region
+   }
+
+
+ }
+  })
+
 
     ProgressArray = newarray.map(function(array) { //Progress Array is FinalArray But unfiltered.
   return new CountryObject(array[0].toLowerCase(), array[1])
@@ -93,6 +154,11 @@ function CreateFinalArray() {
     regionsIds = arrayRegions.map(function(region) { //USED to Filter ProgressArray into FinalArray
         return region.id.toString().split("_")[1] }).sort();
 
+
+        HelpArray = newarray.map(function(array) { //Progress Array is FinalArray But unfiltered.
+            return new CountryObject(array[0].toLowerCase(), array[1])
+              })
+
         FinalArray = ProgressArray.filter(function(e) { //An Array of 170 Objects
               for(let i = 0; i < regionsIds.length; i++) {
                 if(e.shortcut == regionsIds[i]) {
@@ -100,13 +166,36 @@ function CreateFinalArray() {
                   }
                 }
             })
+            BuiltArray = FinalArray
+
+            mapsArray = mapsArray.filter(function(map) {
+              var mappedCount = CountriesInPlay.map(x => x - 1);
+              for (let i = 0; i < mapsArray.length; i++) {
+              for (let y = 0; y < mappedCount.length;y ++) {
+                if (i == mappedCount[y]) {
+                  return map
+                }
+              }
+              }
+            })
+
+            function NewRandomCountry() {
+              randomNumber = Math.floor(Math.random() * BuiltArray.length - 1);
+              currentCountry = BuiltArray[randomNumber].name
+              currentId = BuiltArray[randomNumber].shortcut
+              document.getElementById("RandomCountry").textContent = currentCountry
+            }
+
+            NewRandomCountry()
 //Creates the Array Of 170 Objects
 }
 
 CreateFinalArray()
 
-    arrayRegions.forEach(region => { //When A Country Is Clicked
-          region.addEventListener("click", function(){
+document.getElementById("StartGame").addEventListener("click", CreateFinalArray)
+
+Nana.forEach(region => { //When A Country Is Clicked
+region.addEventListener("click", function(){
 
 function TriesTracker() {
   TriesCounter++
@@ -128,15 +217,17 @@ else if(TriesCounter == 3) {
 TriesTracker()
 
 
+
+
 function ShowTheAnswer() { //If all 3 tries are wrong, shows the real answer
   for( let i = 0; i < BuiltArray.length; i++) {
     if(BuiltArray[i].name == currentCountry) {
-       for(let y = 0; y < arrayRegions.length; y++) {
-           if(BuiltArray[i].shortcut == arrayRegions[y].id.split("_")[1]) {
-             arrayRegions[y].style.fill = "#b6ff40";
+       for(let y = 0; y < Nana.length; y++) {
+           if(BuiltArray[i].shortcut == Nana[y].id.split("_")[1]) {
+             Nana[y].style.fill = "#b6ff40";
              removeZFromAllMaps()
              removeSelectedFromAllNadpisy()
-             var IdFirstPart = arrayRegions[y].id.split("_")[0]
+             var IdFirstPart = Nana[y].id.split("_")[0]
              var MapaCount = IdFirstPart[IdFirstPart.length - 1]
              console.log(MapaCount)
 
@@ -153,7 +244,6 @@ function ShowTheAnswer() { //If all 3 tries are wrong, shows the real answer
 
 }
 
-
           if(this.id.split("_")[1] == currentId) { //If A correct guess
 
                     this.style.fill ="#b6ff40";
@@ -161,6 +251,7 @@ function ShowTheAnswer() { //If all 3 tries are wrong, shows the real answer
                     WrongCountryDiv.style.display = "inline-block"
                     WrongCountryDiv.style.backgroundColor = "#b6ff40";
                     WrongCountry.textContent = currentCountry;
+                    CorrectCounter++
 
 
               }
@@ -170,9 +261,9 @@ function ShowTheAnswer() { //If all 3 tries are wrong, shows the real answer
                 this.classList.add("Unclickable")
                 MistakesCounter++
 
-                for(let i = 0; i < BuiltArray.length; i++) { //Gets The Name Of THe Country User Selected
-                    if(BuiltArray[i].shortcut == this.id.split("_")[1]) {
-                      WrongCountry.textContent = BuiltArray[i].name;
+                for(let i = 0; i < HelpArray.length; i++) { //Gets The Name Of THe Country User Selected
+                    if(HelpArray[i].shortcut == this.id.split("_")[1]) {
+                      WrongCountry.textContent = HelpArray[i].name;
                       WrongCountryDiv.style.display = "inline-block"
 
                         }
@@ -221,7 +312,7 @@ function ReturnColorToShownCountry() {
 }
 
 function makeEverythingClickable() {
-  arrayRegions.forEach(region => { //Countries On Map Unclickable
+  Nana.forEach(region => { //Countries On Map Unclickable
     region.classList.remove("Unclickable")
   })
   nadpisyArray.forEach(nadpis => {
@@ -232,32 +323,122 @@ function makeEverythingClickable() {
 
 function RandomCountry() {  //Gets A New Random Country, Begins The Game
 
+WorkingRadios()
 HandleMouseScroll()
 makeEverythingClickable()
 BuildArray()
 ReturnColorToShownCountry()
 
+
 if (GameStarted) ReturnOriginalColors()
 GameStarted = true;
 
-Annulate()
+function NewRandomCountry() {
+randomNumber = Math.floor(Math.random() * BuiltArray.length);
+
+
+  currentCountry = BuiltArray[randomNumber].name
+  currentId = BuiltArray[randomNumber].shortcut
+  document.getElementById("RandomCountry").textContent = currentCountry
+}
+
 NewRandomCountry()
 
-  document.addEventListener("keydown", HandleKeyPress);
+Annulate()
+
+
+
+document.addEventListener("keydown", HandleKeyPress);
 
   EnterInstr.style.display = "none"
   WrongCountryDiv.style.display = "none";
   ContinueButton.style.display = "none"
 }
+document.getElementById("refresh").addEventListener("click", function() {
+location.reload();
 
-function BuildArray() {//wíll be used so a User can play for ex only with African countries
-BuiltArray = FinalArray
-}
+})
 
  //Begins The Game
 RandomCountry()
 
+
+document.getElementById("StartGame").addEventListener("click", function() {
+setTimeout(function(){  document.getElementById("overlay").style.display = "none"}, 100
+
+  )
+})
+
+function WorkingRadios() {
+  var Radios = document.getElementsByClassName("radiobutton")
+  var RadiosArray = []
+  for (let i = 0; i < Radios.length; i++ ) {
+    RadiosArray.push(Radios[i]);
+  }
+  RadiosArray.forEach(Radio => {
+    Radio.addEventListener("click", function() {
+      RadiosArray.forEach(Radios => {
+        Radios.classList.remove("selectedradio")
+      })
+      Radio.classList.add("selectedradio")
+    })
+  })
+
+
+}
+
+function Quizify() {
+console.log("YOU")
+QuestionCounter++
+
+function end() {
+  console.log(CorrectCounter + "correct")
+  document.getElementById("overlay").style.display = "block";
+  document.getElementById("MenuContent").style.display = "none";
+  document.getElementById("HowManyCorrect").textContent = CorrectCounter
+  document.getElementById("QuestionCounter").textContent = QuestionCounter - 1
+  document.getElementById("MenuAftermath").style.display = "block"
+}
+    var Radios = document.getElementsByClassName("radiobutton")
+    var RadiosArray = []
+    for (let i = 0; i < Radios.length; i++ ) {
+      RadiosArray.push(Radios[i]);
+    }
+  RadiosArray.forEach(Radios => {
+    if (Radios.classList.contains("selectedradio")) {
+      PickedRadio = RadiosArray.indexOf(Radios)
+    }
+  })
+if (PickedRadio == 0) {
+  console.log("0")
+}
+if (PickedRadio == 1) {
+  console.log("1");
+if(QuestionCounter > 10) {
+end()
+}
+ }
+
+if (PickedRadio == 2) {
+  if(QuestionCounter > 20) {
+  end()
+  }
+}
+if (PickedRadio == 3) {
+  if(QuestionCounter > 50) {
+  end()
+  }
+}
+}
+document.getElementById("StartGame").addEventListener("click", Quizify)
+document.getElementById("continuebutton").addEventListener("click", Quizify)
+
+
+
 }, 0);
+
+
+
 
 function HandleMouseScroll() {
 
@@ -283,11 +464,4 @@ function Annulate() {
     pickedCountryId3 = 0
     TriesCounter = 0
     MistakesCounter = 0;
-}
-
-function NewRandomCountry() {
-  randomNumber = Math.floor(Math.random() * 170);
-  currentCountry = BuiltArray[randomNumber].name
-  currentId = BuiltArray[randomNumber].shortcut
-  document.getElementById("RandomCountry").textContent = currentCountry
 }

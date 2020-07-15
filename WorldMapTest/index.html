@@ -21,11 +21,55 @@
 
           <script src="Application/main.js" charset="utf-8"></script>
           <script src="Application/countries.js"></script>
+          <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
   </head>
   <body>
 
+<div id="overlay">
+
+
+        <div id="menu">
+<span id="MenuContent"><h1 id="WorldNadpis">WORLD MAP TEST</h1>
+<span class="WhatContinents">Which Continents Do You Want To Study? </br><span id="blabla">(Click Continents To Deselect Them)</span></span>
+
+  <div class="container">
+  <ul class="ks-cboxtags">
+    <li><input class="checkboxes"type="checkbox" id="checkboxOne" value="Rainbow Dash" checked><label for="checkboxOne">Asia</label></li>
+    <li><input class="checkboxes"type="checkbox" id="checkboxTwo" value="Cotton Candy" checked><label for="checkboxTwo">Europe</label></li>
+    <li><input class="checkboxes"type="checkbox" id="checkboxThree" value="Rarity" checked><label for="checkboxThree">Australia</label></li>
+    <li><input class="checkboxes"type="checkbox" id="checkboxFour" value="Moondancer" checked><label for="checkboxFour">Africa</label></li>
+    <li><input class="checkboxes"type="checkbox" id="checkboxFive" value="Surprise" checked><label for="checkboxFive">North America</label></li>
+    <li><input class="checkboxes"type="checkbox" id="checkboxSix" value="Twilight Sparkle" checked><label for="checkboxSix">South America</label></li>
+  </ul>
+
+</div>
+
+
+<span class="WhatTime">How many Questions do you want?</span>
+
+<div id="MyOwnRadios">
+<button class="radiobutton selectedradio" type="button" name="button">Infinite Questions</button>
+<button class="radiobutton" type="button" name="button">10 Question Quiz</button>
+<button class="radiobutton" type="button" name="button">20 Question Quiz</button>
+<button class="radiobutton" type="button" name="button">50 Question Quiz</button></div>
+
+<button type="button" id="StartGame"name="button">Start!</button>
+</span>
+
+<span id="MenuAftermath">
+<div id="Result">
+  <span id="HowManyCorrect">5</span> <span> / </span> <span id="QuestionCounter">10</span>
+</div>
+<img id="beauty" src="lv.png" width="300px" height="300px" alt="">
+
+<button type="button" id="refresh" name="button">Play Again!</button>
+</span>
+
+        </div>
+</div>
+
    <div id="WrongCountry">
-     You clicked on: <span id="WrongCountryJS">Lao People's Democratic Republic</span>
+     You clicked on: <span id="WrongCountryJS"></span>
    </div>
 
   <button type="button" id="continuebutton"name="button">Next</button>
