@@ -45,6 +45,7 @@ var HelpArray
  var PickedRadio
  var QuestionCounter = 0;
  var CorrectCounter = 0
+ var EnterTracker = 0;
 
 for(i = 0; i < regions.length; i ++ ) { //Creates the Regions ARRAY
 
@@ -433,8 +434,18 @@ if (PickedRadio == 3) {
 document.getElementById("StartGame").addEventListener("click", Quizify)
 document.getElementById("continuebutton").addEventListener("click", Quizify)
 
-
-
+function HandleFirstEnterPress(key){
+if(EnterTracker == 0) {
+  if(key.keyCode == 13) {
+      document.getElementById("StartGame").click()
+      EnterTracker++
+  }
+}
+else {
+  return
+}
+}
+document.addEventListener("keydown", HandleFirstEnterPress)
 }, 0);
 
 
