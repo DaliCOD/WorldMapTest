@@ -142,3 +142,18 @@ function removeSelectedFromAllNadpisy() {
 document.addEventListener("keydown", HandleKeyPress);
 readyTheMap()
 $(window).load(createArrays());
+
+
+    function myFunction() {
+     if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 )
+    {
+        return
+    }
+    else if(navigator.userAgent.indexOf("Firefox") != -1 )
+    {
+         alert('If you are using Mozilla Firefox and your screen is smaller than 1920x1080, use CONTROL + Mouse scroll to adjust the size of the elements on the page');
+    }
+
+    }
+
+window.addEventListener('load', myFunction)

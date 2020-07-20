@@ -427,3 +427,16 @@ html { box-sizing: border-box; height: 100%;  } *, *::before, *::after { box-siz
       line-height: 1em;
     }
   }}
+
+  @media only screen and (max-height: 930px) {
+Body{
+  zoom: 0.9;
+  
+}
+}
+@media only screen and (max-height: 820px) {
+Body{
+zoom: 0.85;
+
+}
+}
